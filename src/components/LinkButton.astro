@@ -8,9 +8,12 @@ interface Props {
 
 const { title, url, description, icon } = Astro.props;
 
-const hostname = new URL(url).hostname;
-const favicon = `https://icons.duckduckgo.com/ip3/${hostname}.ico`;
-const external = !url.startsWith("/") && !url.startsWith("#");
+const parsed = new URL(url);
+const isHttp = parsed.protocol === "http:" || parsed.protocol === "https:";
+const favicon = isHttp
+  ? `https://icons.duckduckgo.com/ip3/${parsed.hostname}.ico`
+  : null;
+const external = isHttp;
 ---
 
 <a
@@ -24,7 +27,7 @@ const external = !url.startsWith("/") && !url.startsWith("#");
       <span class="flex h-8 w-8 shrink-0 items-center justify-center text-xl">
         {icon}
       </span>
-    ) : (
+    ) : favicon ? (
       <img
         src={favicon}
         alt=""
@@ -35,6 +38,8 @@ const external = !url.startsWith("/") && !url.startsWith("#");
         class="h-8 w-8 shrink-0 rounded-md bg-neutral-800 p-1"
         onerror="this.style.visibility='hidden'"
       />
+    ) : (
+      <span class="h-8 w-8 shrink-0 rounded-md bg-neutral-800" />
     )
   }
   <div class="min-w-0 flex-1">

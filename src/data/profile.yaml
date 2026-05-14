@@ -41,6 +41,11 @@ links:
     url: https://signal.me/#eu/B4EAL1p3tahHtbfe_X14yb9JgghrEkR_b22NoQcCARpbfL4hU9BE94fhefohcrIf
     description: Direct message on Signal
 
+  - title: Email
+    url: mailto:bekir.koncak@bkir.nl
+    description: bekir.koncak@bkir.nl
+    icon: ✉️
+
   - title: bkir.dev
     url: https://bkir.dev/
     description: Persoonlijke startpagina
