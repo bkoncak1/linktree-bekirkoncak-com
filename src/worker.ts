@@ -4,7 +4,7 @@ import redirects from "./generated/redirects.json";
 
 interface Env {
   ASSETS: Fetcher;
-  CLICKS: AnalyticsEngineDataset;
+  ANALYTICS_ENGINE: AnalyticsEngineDataset;
 }
 
 const map = redirects as Record<string, string>;
@@ -22,7 +22,7 @@ export default {
       }
 
       try {
-        env.CLICKS.writeDataPoint({
+        env.ANALYTICS_ENGINE.writeDataPoint({
           blobs: [
             request.cf?.country?.toString() ?? "",
             request.headers.get("user-agent") ?? "",

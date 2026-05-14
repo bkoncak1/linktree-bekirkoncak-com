@@ -42,7 +42,7 @@ estimated 20-40% of tech-savvy visitors.
 
 Every link card renders an href to `/out/<slug>`. The Worker (`src/worker.ts`):
 
-1. Logs a data point to the `linktree_clicks` Analytics Engine dataset
+1. Logs a data point to the `analytics_events` Analytics Engine dataset
    (indexed by slug; blobs contain country, user-agent, referer)
 2. Returns a `302` to the real URL
 
@@ -56,7 +56,7 @@ Engine → **SQL Console**:
 SELECT
   index1 AS slug,
   COUNT() AS clicks
-FROM linktree_clicks
+FROM analytics_events
 WHERE timestamp > NOW() - INTERVAL '7' DAY
 GROUP BY slug
 ORDER BY clicks DESC
