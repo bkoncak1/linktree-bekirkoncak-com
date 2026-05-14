@@ -14,12 +14,18 @@ const profile = defineCollection({
     handle: z.string().optional(),
     bio: z.string().optional(),
     avatar: z.string().optional(),
+    analytics: z
+      .object({
+        cloudflareToken: z.string().optional(),
+      })
+      .optional(),
     links: z.array(
       z.object({
         title: z.string(),
         url: z.string().url(),
         description: z.string().optional(),
         icon: z.string().optional(),
+        slug: z.string().optional(),
       })
     ),
   }),

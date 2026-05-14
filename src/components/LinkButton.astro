@@ -4,9 +4,10 @@ interface Props {
   url: string;
   description?: string;
   icon?: string;
+  slug?: string;
 }
 
-const { title, url, description, icon } = Astro.props;
+const { title, url, description, icon, slug } = Astro.props;
 
 const parsed = new URL(url);
 const isHttp = parsed.protocol === "http:" || parsed.protocol === "https:";
@@ -20,7 +21,8 @@ const external = isHttp;
   href={url}
   target={external ? "_blank" : undefined}
   rel={external ? "noopener noreferrer" : undefined}
-  class="group flex items-center gap-4 rounded-xl border border-neutral-800 bg-neutral-900/60 px-4 py-3.5 transition-colors hover:border-neutral-700 hover:bg-neutral-800/70 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-neutral-500"
+  data-slug={slug}
+  class="link-item group flex items-center gap-4 rounded-xl border border-neutral-800 bg-neutral-900/60 px-4 py-3.5 transition-colors hover:border-neutral-700 hover:bg-neutral-800/70 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-neutral-500"
 >
   {
     icon ? (

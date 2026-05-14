@@ -7,12 +7,27 @@ const entry = await getEntry("profile", "main");
 if (!entry) {
   throw new Error("profile.yaml not found or empty");
 }
-const { name, handle, bio, avatar, links } = entry.data;
+const { name, handle, bio, avatar, links, analytics } = entry.data;
 
 const pageTitle = handle ? `${name} (${handle})` : name;
+
+const slugify = (s: string) =>
+  s
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-|-$/g, "");
+
+const linksWithSlugs = links.map((l) => ({
+  ...l,
+  slug: l.slug ?? slugify(l.title),
+}));
 ---
 
-<Layout title={pageTitle} description={bio}>
+<Layout
+  title={pageTitle}
+  description={bio}
+  cloudflareAnalyticsToken={analytics?.cloudflareToken}
+>
   <main class="mx-auto flex min-h-screen w-full max-w-md flex-col px-5 py-10 sm:py-16">
     <header class="flex flex-col items-center text-center">
       {
@@ -42,7 +57,7 @@ const pageTitle = handle ? `${name} (${handle})` : name;
     </header>
 
     <nav class="mt-8 flex flex-col gap-2.5" aria-label="Links">
-      {links.map((link) => <LinkButton {...link} />)}
+      {linksWithSlugs.map((link) => <LinkButton {...link} />)}
     </nav>
 
     <footer class="mt-auto pt-12 text-center text-xs text-neutral-600">
@@ -54,4 +69,27 @@ const pageTitle = handle ? `${name} (${handle})` : name;
       </a>
     </footer>
   </main>
+
+  <script>
+    // Per-link click tracking via Cloudflare Web Analytics SPA hooks.
+    // We push a virtual pageview to /out/<slug>, then restore the URL.
+    // The beacon picks up the history change and records it as a pageview.
+    const links = document.querySelectorAll<HTMLAnchorElement>(
+      "a.link-item[data-slug]"
+    );
+    for (const link of links) {
+      link.addEventListener("click", () => {
+        const slug = link.dataset.slug;
+        if (!slug) return;
+        try {
+          history.pushState({}, "", `/out/${slug}`);
+          requestAnimationFrame(() => {
+            history.replaceState({}, "", "/");
+          });
+        } catch {
+          // ignore — analytics is best-effort
+        }
+      });
+    }
+  </script>
 </Layout>

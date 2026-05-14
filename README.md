@@ -27,6 +27,27 @@ links:
 The Zod schema in `src/content.config.ts` validates the YAML at build time, so
 typos and invalid URLs fail loudly.
 
+## Analytics (optional)
+
+Cloudflare Web Analytics is wired up — privacy-friendly, no cookies, free.
+
+1. Cloudflare dashboard → Analytics & Logs → Web Analytics → **Add a site**
+   (pick "Manual setup", domain `linktree.bekirkoncak.com`)
+2. Copy the **site token** (a hex string in the snippet)
+3. Set it in `src/data/profile.yaml`:
+
+   ```yaml
+   analytics:
+     cloudflareToken: "your-token-here"
+   ```
+
+4. Rebuild and redeploy
+
+You get visit counts automatically. Per-link click counts show up as
+pageviews to `/out/<slug>` in the dashboard (Instagram → `/out/instagram`,
+Bluesky → `/out/bluesky`, etc.) — every click fires a virtual SPA pageview
+that the beacon picks up.
+
 ## Local development
 
 Requires Node 20+.

@@ -8,6 +8,12 @@ bio: Links, profiles, and elsewhere.
 # Optional: drop an image at public/avatar.jpg and set:
 # avatar: /avatar.jpg
 
+# Optional. Token from Cloudflare dashboard → Web Analytics → Add a site.
+# When set, a beacon is injected and every link click fires a virtual
+# pageview to /out/<slug> so you can see per-link counts in the dashboard.
+# analytics:
+#   cloudflareToken: "your-token-here"
+
 links:
   - title: Instagram
     url: https://www.instagram.com/bkir.90/
