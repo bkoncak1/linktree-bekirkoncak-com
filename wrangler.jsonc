@@ -1,6 +1,6 @@
 {
   "$schema": "node_modules/wrangler/config-schema.json",
-  "name": "linktree-bekirkoncak-com",
+  "name": "linktree-bekirkoncak-com-site",
   "compatibility_date": "2026-05-14",
   "assets": {
     "directory": "./dist"
