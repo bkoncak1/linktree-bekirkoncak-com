@@ -10,18 +10,36 @@ bio: Links, profiles, and elsewhere.
 
 links:
   - title: Instagram
-    url: https://instagram.com/
-    # description: optional subtitle under the title
-    # icon: optional emoji shown in place of the favicon
+    url: https://www.instagram.com/bkir.90/
+    description: "@bkir.90"
 
   - title: Bluesky
-    url: https://bsky.app/
-
-  - title: GitHub
-    url: https://github.com/
+    url: https://bsky.app/profile/bekirkoncak.com
+    description: "@bekirkoncak.com"
 
   - title: LinkedIn
-    url: https://www.linkedin.com/
+    url: https://www.linkedin.com/in/bekirkoncak/
+    description: "in/bekirkoncak"
+
+  - title: X
+    url: https://x.com/bkoncak
+    description: "@bkoncak"
+
+  - title: Facebook
+    url: https://www.facebook.com/bekir.koncak/
+    description: bekir.koncak
+
+  - title: GitHub
+    url: https://github.com/bkoncak1
+    description: "@bkoncak1"
+
+  - title: Telegram
+    url: https://t.me/bkirbv
+    description: "@bkirbv"
+
+  - title: Signal
+    url: https://signal.me/#eu/B4EAL1p3tahHtbfe_X14yb9JgghrEkR_b22NoQcCARpbfL4hU9BE94fhefohcrIf
+    description: Direct message on Signal
 
   - title: bkir.dev
     url: https://bkir.dev/
