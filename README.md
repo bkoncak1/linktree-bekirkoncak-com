@@ -27,26 +27,44 @@ links:
 The Zod schema in `src/content.config.ts` validates the YAML at build time, so
 typos and invalid URLs fail loudly.
 
-## Analytics (optional)
+## Analytics
 
-Cloudflare Web Analytics is wired up — privacy-friendly, no cookies, free.
+Two layers, both privacy-friendly, both free.
 
-1. Cloudflare dashboard → Analytics & Logs → Web Analytics → **Add a site**
-   (pick "Manual setup", domain `linktree.bekirkoncak.com`)
-2. Copy the **site token** (a hex string in the snippet)
-3. Set it in `src/data/profile.yaml`:
+**1. Page views — Cloudflare Web Analytics**
 
-   ```yaml
-   analytics:
-     cloudflareToken: "your-token-here"
-   ```
+Beacon injected via `analytics.cloudflareToken` in `profile.yaml`. Tracks
+visits to `/` in the Web Analytics dashboard. Note: ad blockers (uBlock
+Origin, Brave Shields, EasyPrivacy lists, etc.) block this beacon for an
+estimated 20-40% of tech-savvy visitors.
 
-4. Rebuild and redeploy
+**2. Per-link clicks — Worker + Analytics Engine**
 
-You get visit counts automatically. Per-link click counts show up as
-pageviews to `/out/<slug>` in the dashboard (Instagram → `/out/instagram`,
-Bluesky → `/out/bluesky`, etc.) — every click fires a virtual SPA pageview
-that the beacon picks up.
+Every link card renders an href to `/out/<slug>`. The Worker (`src/worker.ts`):
+
+1. Logs a data point to the `linktree_clicks` Analytics Engine dataset
+   (indexed by slug; blobs contain country, user-agent, referer)
+2. Returns a `302` to the real URL
+
+This runs at Cloudflare's edge, so ad blockers can't strip it. Bots and
+`curl` are counted too — filter them in SQL if you don't want them.
+
+Query the data in Cloudflare dashboard → Workers & Pages → Analytics
+Engine → **SQL Console**:
+
+```sql
+SELECT
+  index1 AS slug,
+  COUNT() AS clicks
+FROM linktree_clicks
+WHERE timestamp > NOW() - INTERVAL '7' DAY
+GROUP BY slug
+ORDER BY clicks DESC
+```
+
+Slugs are derived from each link's `title` (lowercased, non-alphanumerics
+→ `-`). Override with an explicit `slug:` field in `profile.yaml` if you
+want a stable identifier independent of the title.
 
 ## Local development
 
@@ -74,11 +92,22 @@ that Wrangler is authenticated (`npx wrangler login`).
 ## Project structure
 
 ```
+public/
+└── favicon.svg
+scripts/
+└── generate-redirects.mjs     # runs as `prebuild`; reads YAML, writes JSON
 src/
+├── worker.ts                  # /out/<slug> → log + 302 redirect
 ├── content.config.ts          # Zod schema for the profile
 ├── data/profile.yaml          # name, bio, avatar, links — edit this
+├── generated/                 # gitignored; redirects.json built from YAML
 ├── layouts/Layout.astro
 ├── components/LinkButton.astro
 ├── pages/index.astro
 └── styles/global.css          # Tailwind v4
 ```
+
+`npm run build` runs `prebuild` first, which regenerates
+`src/generated/redirects.json` from `src/data/profile.yaml`. The Worker
+imports that JSON at bundle time, so any change to the YAML re-ships the
+redirect map.

@@ -70,26 +70,4 @@ const linksWithSlugs = links.map((l) => ({
     </footer>
   </main>
 
-  <script>
-    // Per-link click tracking via Cloudflare Web Analytics SPA hooks.
-    // We push a virtual pageview to /out/<slug>, then restore the URL.
-    // The beacon picks up the history change and records it as a pageview.
-    const links = document.querySelectorAll<HTMLAnchorElement>(
-      "a.link-item[data-slug]"
-    );
-    for (const link of links) {
-      link.addEventListener("click", () => {
-        const slug = link.dataset.slug;
-        if (!slug) return;
-        try {
-          history.pushState({}, "", `/out/${slug}`);
-          requestAnimationFrame(() => {
-            history.replaceState({}, "", "/");
-          });
-        } catch {
-          // ignore — analytics is best-effort
-        }
-      });
-    }
-  </script>
 </Layout>

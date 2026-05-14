@@ -15,10 +15,14 @@ const favicon = isHttp
   ? `https://icons.duckduckgo.com/ip3/${parsed.hostname}.ico`
   : null;
 const external = isHttp;
+
+// href points at the Worker redirect endpoint so every click is counted
+// server-side. The Worker 302s to the real URL.
+const href = slug ? `/out/${slug}` : url;
 ---
 
 <a
-  href={url}
+  href={href}
   target={external ? "_blank" : undefined}
   rel={external ? "noopener noreferrer" : undefined}
   data-slug={slug}
