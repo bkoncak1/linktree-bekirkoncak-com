@@ -1,0 +1,28 @@
+# Linktree profile + links.
+# Edit this file to update the page. Build is validated by Zod, so typos
+# and bad URLs fail loudly.
+
+name: Bekir Koncak
+handle: "@bkir"
+bio: Links, profiles, and elsewhere.
+# Optional: drop an image at public/avatar.jpg and set:
+# avatar: /avatar.jpg
+
+links:
+  - title: Instagram
+    url: https://instagram.com/
+    # description: optional subtitle under the title
+    # icon: optional emoji shown in place of the favicon
+
+  - title: Bluesky
+    url: https://bsky.app/
+
+  - title: GitHub
+    url: https://github.com/
+
+  - title: LinkedIn
+    url: https://www.linkedin.com/
+
+  - title: bkir.dev
+    url: https://bkir.dev/
+    description: Persoonlijke startpagina

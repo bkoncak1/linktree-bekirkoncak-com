@@ -1,0 +1,64 @@
+---
+interface Props {
+  title: string;
+  url: string;
+  description?: string;
+  icon?: string;
+}
+
+const { title, url, description, icon } = Astro.props;
+
+const hostname = new URL(url).hostname;
+const favicon = `https://icons.duckduckgo.com/ip3/${hostname}.ico`;
+const external = !url.startsWith("/") && !url.startsWith("#");
+---
+
+<a
+  href={url}
+  target={external ? "_blank" : undefined}
+  rel={external ? "noopener noreferrer" : undefined}
+  class="group flex items-center gap-4 rounded-xl border border-neutral-800 bg-neutral-900/60 px-4 py-3.5 transition-colors hover:border-neutral-700 hover:bg-neutral-800/70 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-neutral-500"
+>
+  {
+    icon ? (
+      <span class="flex h-8 w-8 shrink-0 items-center justify-center text-xl">
+        {icon}
+      </span>
+    ) : (
+      <img
+        src={favicon}
+        alt=""
+        width="32"
+        height="32"
+        loading="lazy"
+        decoding="async"
+        class="h-8 w-8 shrink-0 rounded-md bg-neutral-800 p-1"
+        onerror="this.style.visibility='hidden'"
+      />
+    )
+  }
+  <div class="min-w-0 flex-1">
+    <div class="truncate text-sm font-medium text-neutral-100 group-hover:text-white">
+      {title}
+    </div>
+    {
+      description && (
+        <div class="truncate text-xs text-neutral-400">{description}</div>
+      )
+    }
+  </div>
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    stroke-width="2"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    class="h-4 w-4 shrink-0 text-neutral-500 transition-transform group-hover:translate-x-0.5 group-hover:text-neutral-300"
+    aria-hidden="true"
+  >
+    <path d="M5 12h14" />
+    <path d="m12 5 7 7-7 7" />
+  </svg>
+</a>
