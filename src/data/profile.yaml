@@ -39,10 +39,6 @@ links:
     url: https://github.com/bkoncak1
     description: "@bkoncak1"
 
-  - title: Telegram
-    url: https://t.me/bkirbv
-    description: "@bkirbv"
-
   - title: Signal
     url: https://signal.me/#eu/B4EAL1p3tahHtbfe_X14yb9JgghrEkR_b22NoQcCARpbfL4hU9BE94fhefohcrIf
     description: Direct message on Signal
@@ -55,7 +51,3 @@ links:
   - title: FME Community
     url: https://community.safe.com/members/bekir-15399
     description: "@bekir"
-
-  - title: bkir.dev
-    url: https://bkir.dev/
-    description: Persoonlijke startpagina
